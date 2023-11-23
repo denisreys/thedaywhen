@@ -3,10 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>laravel</title>
+        <title>thedaywhen</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body>
-        <div id="app"></div>
+    <body class="min-h-screen overflow-x-hidden">
+        <div id="app" class="flex flex-col min-h-screen max-h-screen pt-8 overflow-x-hidden"></div>
     </body>
 </html>
