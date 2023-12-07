@@ -10,6 +10,9 @@ input:focus, input:active, div[contenteditable]{
 .day__title {
     @apply text-center text-base sm:text-lg font-semibold leading-none;
 }
+.day--active {
+    @apply -ml-4 -mr-4 !px-4 !rounded-none sm:!rounded;
+}
 .day--notactive {
     @apply !opacity-50;
 }

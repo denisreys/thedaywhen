@@ -15,7 +15,7 @@
             </svg>
         </div>
         <ul ref="focusTo">
-            <li class="bg-mylightgray rounded p-3 xs:px-4 mb-3 sm:mb-4 cursor-pointer" :class="{'day--notactive': selectDay != null && dayIndex != selectDay}" v-for="(day, dayIndex) in days" :key="dayIndex" @click="changeSelectedDay(dayIndex)">
+            <li class="bg-mylightgray rounded p-3 xs:px-4 mb-3 sm:mb-4 cursor-pointer" :class="{'day--notactive': selectDay != null && dayIndex != selectDay, 'day--active': dayIndex == selectDay}" v-for="(day, dayIndex) in days" :key="dayIndex" @click="changeSelectedDay(dayIndex)">
                 <div class="relative">
                     <div class="day__title">{{ day.title }}</div>
                     <div class="absolute right-0 top-0" v-if="selectDay == dayIndex && loaders.note">
