@@ -73,7 +73,6 @@
                     authForm.value.registered = response.data;
                 })
                 .catch(error => {
-                    console.log(error);
                     if(error.response.status == 422){
                         authForm.value.errors = error.response.data.errors;
                         

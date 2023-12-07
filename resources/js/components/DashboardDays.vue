@@ -105,15 +105,10 @@
     onMounted(() => {
         getDays('mounted');
     });
-    // watch(filters.value, (newX) => {
-    //     daysOffset = 0;
-    //     getDays('filtered');
-    // });
 
     function updateFilters(newFilters){
         daysOffset = 0;
         filters.value = newFilters;
-        console.log(filters.value.month);
         getDays('filtered');
     }
     function dayText(dayIndex){
@@ -134,9 +129,7 @@
             filterDate: filters.value.date.moved,
             daysOffset: daysOffset
         })
-        .then(response => {
-            console.log(response.data);
-            
+        .then(response => { 
             if(days.value.length && daysOffset){
                 days.value = [...response.data.days, ...days.value];
             }else {
@@ -148,7 +141,6 @@
                 filters.value.date.title = false;
             }
             
-            
             let oldScrollPosition = document.body.scrollHeight;
             nextTick(() => {
                 if(daysOffset != 0){
@@ -156,7 +148,6 @@
                 }else {
                     window.scrollTo(0, document.body.scrollHeight);
                 }
-
                 daysOffset = response.data.daysOffset;
             });
         })
@@ -187,7 +178,7 @@
     function save(e, dayIndex){
         loaders.value.note = true;
         if(timer) clearTimeout(timer);
-        let delayTime = 1500;
+        let delayTime = 1200;
         selectDay.value = dayIndex;
         let data = days.value[selectDay.value];
         let text;

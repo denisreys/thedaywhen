@@ -21,7 +21,6 @@ class NoteController extends Controller
             $date['finish'] = Carbon::tomorrow();
         }
         
-        
         if($request->daysOffset != 0) $date['finish'] = $date['finish']->subDays($request->daysOffset);
         
         $date['start'] = $date['finish']->copy()->subMonth(1);
@@ -35,10 +34,6 @@ class NoteController extends Controller
         $notes = array_reverse($notes);
 
         $days = [];
-        // $days[98] = $date['start'];
-       // $days[99] = $date['finish'];
-        //$days[100] = $notes;
-        
 
         if($request->bookmated || $request->hideEmpty){
             foreach($notes as $keyNote => $note){
@@ -76,7 +71,16 @@ class NoteController extends Controller
                     }
                 }
             }
+            
             $date['start'] = $date['start']->subDays($daysCount - 1);
+        }
+
+        if($days){
+            $lastKey = count($days) - 1;
+            
+            if($days[$lastKey]['fulldate'] == Carbon::today()->toDateString()){
+               $days[$lastKey]['title'] = 'Today';
+            }
         }
 
         return ['days' => $days, 'daysOffset' => $request->daysOffset + $daysCount];
