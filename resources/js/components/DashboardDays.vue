@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-1 flex flex-col justify-end relative">
+    <div class="flex flex-col justify-end relative mb-10">
         <div v-if="loaders.daysCenter" class="fixed top-0 left-0 flex z-20 h-full w-full bg-white bg-opacity-50 backdrop-blur-sm">
             <div class="flex m-auto">
                 <svg class="w-6 h-6 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -15,7 +15,14 @@
             </svg>
         </div>
         <ul ref="focusTo">
-            <li class="bg-mylightgray rounded p-3 xs:px-4 mb-3 sm:mb-4 cursor-pointer" :class="{'day--notactive': selectDay != null && dayIndex != selectDay, 'day--active': dayIndex == selectDay}" v-for="(day, dayIndex) in days" :key="dayIndex" @click="changeSelectedDay(dayIndex)">
+            <li class="bg-mylightgray rounded p-3 xs:p-4 mb-3 sm:mb-4 cursor-pointer" 
+            :class="{
+                'day--notactive': selectDay != null && dayIndex != selectDay, 
+                'day--active': dayIndex == selectDay
+            }" 
+            v-for="(day, dayIndex) in days" 
+            :key="dayIndex" 
+            @click="changeSelectedDay(dayIndex)">
                 <div class="relative">
                     <div class="day__title">{{ day.title }}</div>
                     <div class="absolute right-0 top-0" v-if="selectDay == dayIndex && loaders.note">
@@ -25,12 +32,12 @@
                     </div>
                     <button class="absolute right-0 top-0" v-else-if="day.text" @click.stop="day.bookmated = 1 - day.bookmated;save(null, dayIndex)">
                         <template v-if="day.bookmated">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 fill-red-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 xs:w-6 xs:h-6 fill-red-500">
                             <path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" />
                             </svg>
                         </template>
                         <template v-else>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 stroke-slate-300 hover:stroke-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 xs:w-6 xs:h-6 stroke-slate-300 hover:stroke-slate-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
                             </svg>
                         </template>

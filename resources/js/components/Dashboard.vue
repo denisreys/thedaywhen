@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4 mt-4 mb-10 flex-1 sm:w-[500px] sm:mx-auto flex flex-col items-stretch relative">
+    <div class="px-4 xs:px-5 mt-4 mb-10 flex-1 sm:w-[500px] sm:mx-auto flex flex-col items-stretch relative">
         <daysBlock/>
     </div>
     <Footer />

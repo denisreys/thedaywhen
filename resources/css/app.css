@@ -1,3 +1,6 @@
+* {
+    -webkit-tap-highlight-color: transparent;
+}
 body {
     color: #222;
 }
@@ -11,7 +14,7 @@ input:focus, input:active, div[contenteditable]{
     @apply text-center text-base sm:text-lg font-semibold leading-none;
 }
 .day--active {
-    @apply -ml-4 -mr-4 !px-4 !rounded-none sm:!rounded;
+    @apply -ml-4 -mr-4 !px-4 xs:-ml-5 xs:-mr-5 xs:!px-5 !rounded-none sm:!rounded;
 }
 .day--notactive {
     @apply !opacity-50;
