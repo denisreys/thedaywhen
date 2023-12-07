@@ -1,5 +1,5 @@
 <template>
-    <div :class="!showMenu ? 'hideMenu' : ''" class="fixed left-0 top-0 w-full h-full z-20">
+    <div :class="!showMenu ? 'hideMenu' : ''" class="fixed left-0 top-0 w-full h-full z-50">
         <div class="overlay w-full h-full bg-black bg-opacity-40 cursor-pointer backdrop-blur-sm" @click="$emit('hideMenu')">
             <div class="bg-white h-full w-3/4 max-w-sm cursor-default slide" @click.stop>
                 <div class="w-full h-1/4 bg-main flex">
@@ -19,14 +19,14 @@
                             </a>
                         </li>
                         <li class="">
-                            <a href="/auth" class="block">
+                            <button class="block" @click="logout()">
                                 <span class="float-left mr-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                                     </svg>
                                 </span>
                                 <span>Logout</span>
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -35,7 +35,17 @@
     </div>
 </template>
 <script setup>
+    import axios from 'axios';
+
     defineProps(['showMenu']);
+
+    function logout(){
+        axios.post('/auth/logout')
+        .then(() => {
+            localStorage.removeItem('token');
+            window.location.replace('/auth');
+        });
+    }
 </script>
 <style>
     .slide, .overlay {

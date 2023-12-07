@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::post('/auth/checkusername', [AuthController::class, 'checkUsername']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/logout', [AuthController::class, 'logout']);
+Route::post('/auth/register', [AuthController::class, 'register']);
+
+Route::post('/notes', [NoteController::class, 'index']);
+Route::post('/notes/createorupdate', [NoteController::class, 'createorupdate']);
 
 Route::get('{any?}', function () {
     return view('app');

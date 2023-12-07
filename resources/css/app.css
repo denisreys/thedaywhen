@@ -4,15 +4,16 @@ body {
 input:focus, input:active, div[contenteditable]{
     outline: none;
 }
-
 .admin-tab--active {
     @apply border-b-2 !border-indigo-400;
 }
-
-
 .day__title {
     @apply text-center text-base sm:text-lg font-semibold leading-none;
 }
+.day--notactive {
+    @apply !opacity-50;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

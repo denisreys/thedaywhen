@@ -1,5 +1,5 @@
 <template>
-    <div class="h-[40px] w-full fixed bottom-0 left-0 bg-white shadow-menu">
+    <div class="h-[40px] w-full fixed bottom-0 left-0 bg-white shadow-menu z-30">
         <div class="sm:w-[500px] sm:mx-auto py-[8px] px-3">
             <div class="">
                 <button @click="showMenu = true">

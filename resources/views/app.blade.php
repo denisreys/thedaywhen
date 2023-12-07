@@ -6,7 +6,7 @@
         <title>thedaywhen</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="min-h-screen overflow-x-hidden">
-        <div id="app" class="flex flex-col min-h-screen max-h-screen pt-8 overflow-x-hidden"></div>
+    <body class="min-h-screen">
+        <div id="app" class="flex flex-col min-h-screen pt-8"></div>
     </body>
 </html>
