@@ -1,21 +1,21 @@
 <template>
-    <div class="px-5 mt-4 sm:w-[500px] sm:m-auto flex flex-col flex-1">
-        <div class="m-auto justify-self-center flex">
+    <div class="px-5 mt-4 sm:w-[500px] sm:m-auto flex flex-col flex-1 fixed bottom-0 h-full w-full">
+        <div class="m-auto justify-self-center flex flex-1">
             <div class="m-auto">
                 remember<br/>
                 every day
             </div>
         </div>
-        <div class="justify-self-end mb-4">
+        <div class="justify-self-end mb-4 sticky bottom-0">
             <div class="bg-mylightgray relative px-3 py-2 rounded flex">
                 <div class="w-full">
                     <input 
-                        type="text" 
-                        ref="usernameInput" 
+                        type="text"
+                        autocapitalize="none" 
                         class="!bg-transparent w-full placeholder:text-gray-500 xs:h-7" 
                         placeholder="username" 
                         name="username" 
-                        v-model="authForm.username" 
+                        @input="event => authForm.username = event.target.value"
                         @keydown.enter="this.$refs.passwordInput.focus()"
                     >
                 </div>
@@ -27,7 +27,16 @@
             </div>
             <div class="bg-mylightgray relative px-3 py-2 rounded flex mt-3">
                 <div class="w-full">
-                    <input type="password" ref="passwordInput" class="!bg-transparent w-full placeholder:text-gray-500 xs:h-7" placeholder="password" name="password" v-model="authForm.password" @keydown.enter="submit()">
+                    <input 
+                        autocapitalize="none"
+                        type="password" 
+                        ref="passwordInput" 
+                        class="!bg-transparent w-full placeholder:text-gray-500 xs:h-7" 
+                        placeholder="password" 
+                        name="password" 
+                        v-model="authForm.password" 
+                        @keydown.enter="submit()"
+                    >
                 </div>
                 <div class="flex-1">
                     <svg v-if="saving && authForm.password.length" class="w-4 h-4 xs:w-5 xs:h-5 animate-spin align-middle mt-[3px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -41,8 +50,11 @@
                     </template>
                 </div>
             </div>
-            <div class="p-2 text-sm lowercase text-gray-400">
-                <span v-for="error in authForm.messages" class="transition ease-in-out delay-150">{{ error[0] }}</span>
+            <div class="text-sm xs:text-base mt-2 lowercase text-gray-400">
+                <template v-if="authForm.errors">
+                    <span v-for="error in authForm.errors">{{ error[0] }}</span>
+                </template>
+                <span v-else>{{ authForm.messages }}</span>
             </div>
         </div>
     </div>
@@ -68,28 +80,28 @@
             clearTimeout(autoCheckTimer);
         }
 
-        if(authForm.value.username.length){
-            authForm.value.errors = authForm.value.registered = false;
+        if(username.length){
+            authForm.value.errors = '';
+            authForm.value.registered = false;
 
             autoCheckTimer = setTimeout(() => {
                 axios.post('/auth/checkusername', {
                     username: authForm.value.username
                 })
                 .then(response => {
-                    authForm.value.errors = '';
+
                     authForm.value.registered = response.data;
                 })
                 .catch(error => {
                     if(error.response.status == 422){
                         authForm.value.errors = error.response.data.errors;
-                        
                     }
                 })
                 .finally(function () {
                     saving.value = false;
                     updateMessages();
                 });
-            }, 1500);
+            }, 1000);
         }
         else {
             authForm.value.errors = authForm.value.registered = authForm.value.password = '';
@@ -98,8 +110,7 @@
         }
     });
     function updateMessages(){
-        if(authForm.value.errors) authForm.value.messages = authForm.value.errors;
-        else if(authForm.value.registered == 'yes') authForm.value.messages = 'great, now you can log in';
+        if(authForm.value.registered == 'yes') authForm.value.messages = 'great, now you can log in';
         else if(authForm.value.registered == 'no') authForm.value.messages = 'great, now you can register';
         else authForm.value.messages = 'registration or login';
     }

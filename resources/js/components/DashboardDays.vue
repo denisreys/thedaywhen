@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-end relative mb-10">
+    <div class="flex flex-col justify-end relative flex-1">
         <div v-if="loaders.daysCenter" class="fixed top-0 left-0 flex z-20 h-full w-full bg-white bg-opacity-50 backdrop-blur-sm">
             <div class="flex m-auto">
                 <svg class="w-6 h-6 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -7,15 +7,14 @@
                 </svg>
             </div>
         </div>
-        <template v-if="days.length">
-        <div class="m-auto mb-5 h-6" >
+        <div class="m-auto mb-5 h-6" v-if="days.length">
             <button @click="getDays('more')" v-if="!loaders.daysTop" class="text-sm">show more</button>
             <svg v-else class="w-5 h-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
-        </div>
-        <ul ref="focusTo">
-            <li class="bg-mylightgray rounded p-3 xs:p-4 mb-3 sm:mb-4 cursor-pointer" 
+        </div> 
+        <ul ref="focusTo" v-if="days.length">
+            <li class="bg-mylightgray rounded p-3 xs:p-4 mb-3 sm:mb-4 cursor-pointer border border-[#f4f4f4]" 
             :class="{
                 'day--notactive': selectDay != null && dayIndex != selectDay, 
                 'day--active': dayIndex == selectDay
@@ -23,8 +22,14 @@
             v-for="(day, dayIndex) in days" 
             :key="dayIndex" 
             @click="changeSelectedDay(dayIndex)">
-                <div class="relative">
-                    <div class="day__title">{{ day.title }}</div>
+                <div class="relative flex">
+                    <div class="flex mx-auto">
+                        <div class="text-2xl font-bold">{{ day.day }}</div>
+                        <div class="ml-2 flex flex-col justify-around">
+                            <div class="text-xs uppercase -mb-2">{{ day.dayWeek }}</div>
+                            <div class="text-xs lowercase text-gray-400">{{ day.month }}</div>
+                        </div>
+                    </div>
                     <div class="absolute right-0 top-0" v-if="selectDay == dayIndex && loaders.note">
                         <svg class="w-4 h-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
@@ -62,25 +67,24 @@
                         </button>
                     </div>
                     <div 
+                        autocapitalize="none"
                         spellcheck="false"
                         @keydown.enter="changeSelectedDay(dayIndex)"
                         @click.stop="selectDay = dayIndex"
                         @focusout="textUpdate(dayIndex)"
                         contenteditable="true"
                         @input="event => save(event, dayIndex)"
-                        v-html="dayText(dayIndex)+'<br/>'"
+                        v-html="dayText(dayIndex)"
                     ></div>
                 </div>
             </li>
         </ul>
-        </template>
         <div class="flex m-auto" v-else>
             <template v-if="filters.bookmated">there is nothing in bookmarks yet</template>
             <template v-else-if="filters.hideEmpty">there are no entries yet</template>
         </div>
     </div>
     <daysFilters 
-        v-if="selectDay == null"
         :filters="filters"
         @updateFilters="updateFilters"
     />
@@ -124,7 +128,7 @@
         for(let text of days.value[dayIndex].text){
             html += text;
         }
-        return html;
+        return html+'<br/>';
     }
     function getDays(action){
         if(action == 'filtered' || action == 'mounted') loaders.value.daysCenter = true;
@@ -183,7 +187,7 @@
         }
     }
     function save(e, dayIndex){
-        loaders.value.note = true;
+        
         if(timer) clearTimeout(timer);
         let delayTime = 1200;
         selectDay.value = dayIndex;
@@ -198,6 +202,7 @@
         }
 
         timer = setTimeout(() => {
+            loaders.value.note = true;
             axios.post('/notes/createorupdate', {
                 text: text,
                 fulldate: data.fulldate,

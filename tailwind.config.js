@@ -9,11 +9,10 @@ export default {
     extend: {
       colors: {
         'main': '#C1B2D9',
-        'mylightgray': '#F3F3F3',
-        'mylightgrayactive': '#F8F8F8',
+        'mylightgray': '#F9F9F9',
       },
       boxShadow: {
-        menu: '0px -4px 4px rgba(0, 0, 0, 0.05)',
+        menu: '0px -3px 4px rgba(0, 0, 0, 0.05)',
       },
       screens: {
         'xs': '420px',

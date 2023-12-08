@@ -1,43 +1,43 @@
 <template>
-    <div class="px-4 xs:px-5 sm:w-[500px] sm:mx-auto w-full bg-white fixed left-0 bottom-11 py-1 flex justify-between z-30">
+    <div class="box-content sm:w-[500px] h-6 xs:h-7 mt-2 sm:mx-auto w-full bg-white bg-opacity-95 sticky bottom-[43px] py-2 flex justify-between z-30">
         <div class="flex items-end">
-            <div class="flex items-center me-2 xs:me-3">
-                <div class="block min-h-6 pl-7">
+            <div class="flex">
+                <div class="block pl-7">
                     <label>
                         <input id="hideempty" 
                         @change="$emit('updateFilters', {hideEmpty: $event.target.checked, bookmated: props.filters.bookmated, date: props.filters.date})" 
                         :checked="props.filters.hideEmpty" 
-                        class="w-4 h-4 xs:w-5 xs:h-5 -ml-6 rounded checked:bg-main after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border border-solid align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs checked:border-0 checked:border-transparent checked:after:opacity-100" 
+                        class="w-5 h-5 xs:w-6 xs:h-6 -ml-7 xs:-ml-8 rounded checked:bg-main after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border border-solid align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs checked:border-0 checked:border-transparent checked:after:opacity-100" 
                         type="checkbox" />
-                        <label for="hideempty" class="cursor-pointer select-none text-xs xs:text-sm xs:ml-1 align-top">Hide empty</label>
+                        <label for="hideempty" class="cursor-pointer select-none text-xs xs:text-sm xs:ml-1 leading-5 xs:leading-6">Hide empty</label>
                     </label>
                 </div>
             </div>
-            <div class="flex items-center">
-                <div class="block min-h-6 pl-7">
+            <div class="flex ml-4 xs:ml-5">
+                <div class="block pl-7">
                     <label>
                         <input id="bookmated" 
                         @change="$emit('updateFilters', {hideEmpty: props.filters.hideEmpty, bookmated: $event.target.checked, date: props.filters.date})" 
                         :checked="props.filters.bookmated" 
-                        class="w-4 h-4 xs:w-5 xs:h-5 -ml-6 rounded checked:bg-main after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border border-solid align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs checked:border-0 checked:border-transparent checked:after:opacity-100" 
+                        class="w-5 h-5 xs:w-6 xs:h-6 -ml-7 xs:-ml-8 rounded checked:bg-main after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border border-solid align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs checked:border-0 checked:border-transparent checked:after:opacity-100" 
                         type="checkbox"/>
-                        <label for="bookmated" class="cursor-pointer select-none text-xs xs:text-sm xs:ml-1 align-top">Bookmated</label>
+                        <label for="bookmated" class="cursor-pointer select-none text-xs xs:text-sm xs:ml-1 leading-5 xs:leading-6">Bookmated</label>
                     </label>
                 </div>
             </div>
         </div>
-        <div class="flex -mr-2 items-center" v-if="filterDateTitle" :class="{'opacity-25 !cursor-default': props.filters.hideEmpty || props.filters.bookmated}">
-            <div class="mt-1">
+        <div class="flex -mr-2 h-6" v-if="filterDateTitle" :class="{'opacity-25 !cursor-default': props.filters.hideEmpty || props.filters.bookmated}">
+            <div class="">
                 <button @click="changeMonth('last')">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6 xs:w-7 xs:h-7">
                     <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
-            <span class="px-[5px] text-sm">{{ filterDateTitle }}</span>
-            <div class="mt-1">
+            <div class="text-sm px-1 align-bottom h-full leading-6 xs:leading-7">{{ filterDateTitle }}</div>
+            <div class="">
                 <button @click="changeMonth('next')" :class="{'cursor-default opacity-40': props.filters.date.moved == 0}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6 xs:w-7 xs:h-7">
                     <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
                     </svg>
                 </button>

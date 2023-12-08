@@ -1,6 +1,6 @@
 <template>
     <div class="h-11 w-full fixed bottom-0 left-0 bg-white shadow-menu z-30">
-        <div class="sm:w-[500px] sm:mx-auto py-[8px] px-5">
+        <div class="sm:w-[500px] sm:mx-auto py-[8px] px-3 xs:px-4">
             <div class="">
                 <button @click="showMenu = true">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
@@ -8,6 +8,7 @@
                     </svg>
                 </button>
             </div>
+            <div></div>
         </div>
     </div>
     <Menu 
