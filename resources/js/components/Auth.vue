@@ -1,5 +1,5 @@
 <template>
-    <div class="px-5 mt-4 sm:w-[500px] sm:m-auto flex flex-col flex-1 fixed bottom-0 h-full w-full">
+    <div class="px-5 mt-4 sm:w-[500px] sm:m-auto flex flex-col flex-1 fixed sm:relative bottom-0 h-full w-full">
         <div class="m-auto justify-self-center flex flex-1">
             <div class="m-auto">
                 remember<br/>
