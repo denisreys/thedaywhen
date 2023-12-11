@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="/build/manifest.webmanifest">
+        <link rel="icon" type="/images/fav.png">
         <title>thedaywhen</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>

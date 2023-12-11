@@ -13,6 +13,7 @@ export default {
       },
       boxShadow: {
         menu: '0px -3px 4px rgba(0, 0, 0, 0.05)',
+        activeday: '0px -5px 5px rgba(0, 0, 0, 0.05)',
       },
       screens: {
         'xs': '420px',

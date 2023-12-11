@@ -24,11 +24,57 @@ export default defineConfig({
                 name: "thedaywhen",
                 start_url: "/",
                 scope: "/",
-                short_name: "TDW",
                 description: "remember every day",
                 display: "standalone",
                 theme_color: "#C1B2D9",
                 background_color: "#C1B2D9",
+                icons: [
+                    {
+                        src: "/images/short_logo_512x512.jpg",
+                        sizes: "512x512",
+                        type: "image/jpg"
+                    },
+                    {
+                        src: "/images/short_logo_384x384.jpg",
+                        sizes: "384x384",
+                        type: "image/jpg"
+                    },
+                    {
+                        src: "/images/short_logo_192x192.jpg",
+                        sizes: "192x192",
+                        type: "image/jpg"
+                    },
+                    {
+                        src: "/images/short_logo_152x152.jpg",
+                        sizes: "152x152",
+                        type: "image/jpg"
+                    },
+                    {
+                        src: "/images/short_logo_180x180.jpg",
+                        sizes: "180x180",
+                        type: "image/jpg"
+                    },
+                    {
+                        src: "/images/short_logo_144x144.jpg",
+                        sizes: "144x144",
+                        type: "image/jpg"
+                    },
+                    {
+                        src: "/images/short_logo_128x128.jpg",
+                        sizes: "128x128",
+                        type: "image/jpg"
+                    },
+                    {
+                        src: "/images/short_logo_120x120.jpg",
+                        sizes: "120x120",
+                        type: "image/jpg"
+                    },
+                    {
+                        src: "/images/short_logo_72x72.jpg",
+                        sizes: "72x72",
+                        type: "image/jpg"
+                    },
+                ]
             }
         }),
         

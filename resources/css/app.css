@@ -7,22 +7,21 @@ body {
 input:focus, input:active, div[contenteditable]{
     outline: none;
 }
+button:active {
+    opacity: 0.8;
+}
 .adaptive-section {
     @apply px-4 xs:px-5 box-content sm:w-[500px] sm:mx-auto;
 }
 .admin-tab--active {
     @apply border-b-2 !border-indigo-400;
 }
-/* .day__date {
-    @apply text-center text-base xs:text-lg font-semibold leading-none;
-} */
 .day--active {
-    @apply -ml-4 -mr-4 !px-4 xs:-ml-5 xs:-mr-5 xs:!px-5 !rounded-none sm:!rounded;
+    @apply !bg-white sm:!bg-mylightgray !px-4 xs:px-5 !py-5 xs:!py-6 sm:py-4 !rounded-none sm:!rounded left-0 fixed bottom-0 z-40 w-full sm:w-[500px] sm:relative shadow-activeday sm:shadow-none !cursor-default;
 }
-.day--notactive {
-    @apply !opacity-20;
+.days__overlay {
+    @apply fixed top-0 left-0 flex z-20 h-full w-full bg-white bg-opacity-50 backdrop-blur-sm;
 }
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

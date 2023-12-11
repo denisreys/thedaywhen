@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col justify-end relative flex-1">
-        <div v-if="loaders.daysCenter" class="fixed top-0 left-0 flex z-20 h-full w-full bg-white bg-opacity-50 backdrop-blur-sm">
+        <div v-if="loaders.daysCenter" class="days__overlay">
             <div class="flex m-auto">
                 <svg class="w-6 h-6 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
@@ -12,19 +12,17 @@
             <svg v-else class="w-5 h-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
-        </div> 
+        </div>
+        <div class="days__overlay cursor-pointer" v-if="selectDay != null" @click="selectDay = null"></div> 
         <ul ref="focusTo" v-if="days.length">
-            <li class="bg-mylightgray rounded p-3 xs:p-4 mb-3 sm:mb-4 cursor-pointer border border-[#f4f4f4]" 
-            :class="{
-                'day--notactive': selectDay != null && dayIndex != selectDay, 
-                'day--active': dayIndex == selectDay
-            }" 
+            <li class="bg-mylightgray rounded p-3 xs:p-4 mt-3 first:mt-0 sm:mb-4 cursor-pointer border border-[#f4f4f4]" 
+            :class="{'day--active': dayIndex == selectDay}" 
             v-for="(day, dayIndex) in days" 
             :key="dayIndex" 
             @click="changeSelectedDay(dayIndex)">
                 <div class="relative flex">
                     <div class="flex mx-auto">
-                        <div class="text-2xl font-bold">{{ day.day }}</div>
+                        <div class="text-2xl font-bold uppercase">{{ day.title || day.day }}</div>
                         <div class="ml-2 flex flex-col justify-around">
                             <div class="text-xs uppercase -mb-2">{{ day.dayWeek }}</div>
                             <div class="text-xs lowercase text-gray-400">{{ day.month }}</div>
@@ -67,6 +65,7 @@
                         </button>
                     </div>
                     <div 
+                        class="cursor-text"
                         autocapitalize="none"
                         spellcheck="false"
                         @keydown.enter="changeSelectedDay(dayIndex)"
@@ -167,16 +166,11 @@
         });
     }
     function changeSelectedDay(dayIndex){
-        if(selectDay.value == dayIndex){
-            focusTo.value.children[selectDay.value].lastChild.lastChild.blur();
-            selectDay.value = null;
-        }else {
-            selectDay.value = dayIndex;
+        selectDay.value = dayIndex;
 
-            nextTick(() => {
-                focusTo.value.children[dayIndex].lastChild.lastChild.focus();
-            });
-        }
+        nextTick(() => {
+            focusTo.value.children[dayIndex].lastChild.lastChild.focus();
+        });
     }
     function textUpdate(dayIndex){
         if(days.value[dayIndex].newText === undefined){
@@ -187,11 +181,9 @@
         }
     }
     function save(e, dayIndex){
-        
         if(timer) clearTimeout(timer);
         let delayTime = 1200;
-        selectDay.value = dayIndex;
-        let data = days.value[selectDay.value];
+        let data = days.value[dayIndex];
         let text;
 
         if(e !== null){

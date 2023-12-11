@@ -38,9 +38,9 @@ class NoteController extends Controller
         if($request->bookmated || $request->hideEmpty){
             foreach($notes as $keyNote => $note){
                 $days[$keyNote]['fulldate'] = $note['day'];
-                $days[$i]['day'] = date_format($day,'d');
-                $days[$i]['month'] = date_format($day,'F');
-                $days[$i]['dayWeek'] = date_format($day,'D');
+                $days[$keyNote]['day'] = Carbon::parse($note['day'])->format('d');
+                $days[$keyNote]['month'] = Carbon::parse($note['day'])->format('F');
+                $days[$keyNote]['dayWeek'] = Carbon::parse($note['day'])->format('D');
                 $days[$keyNote]['text'] = $note['text'];
                 $days[$keyNote]['theday'] = $note['theday'];
                 $days[$keyNote]['bookmated'] = $note['bookmated'];
@@ -79,13 +79,13 @@ class NoteController extends Controller
             $date['start'] = $date['start']->subDays($daysCount - 1);
         }
 
-        /*if($days){
+        if($days){
             $lastKey = count($days) - 1;
             
             if($days[$lastKey]['fulldate'] == Carbon::today()->toDateString()){
                $days[$lastKey]['title'] = 'Today';
             }
-        }*/
+        }
 
         return ['days' => $days, 'daysOffset' => $request->daysOffset + $daysCount];
     }
