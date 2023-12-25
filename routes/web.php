@@ -20,7 +20,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/logout', [AuthController::class, 'logout']);
 Route::post('/auth/register', [AuthController::class, 'register']);
 
-Route::post('/notes', [NoteController::class, 'index']);
+Route::get('/notes', [NoteController::class, 'index']);
 Route::post('/notes/createorupdate', [NoteController::class, 'createorupdate']);
 
 Route::get('{any?}', function () {

@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->string('text')->default('');
+            $table->text('text')->default(NULL);
             $table->string('user');
-            $table->date('day');
+            $table->date('fulldate');
             $table->boolean('theday');
             $table->boolean('bookmated');
             $table->timestamps();
-            $table->unique(['user', 'day']);
+            $table->unique(['user', 'fulldate']);
         });
     }
 

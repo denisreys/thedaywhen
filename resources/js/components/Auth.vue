@@ -13,7 +13,7 @@
                         type="text"
                         autocapitalize="none" 
                         class="!bg-transparent w-full placeholder:text-gray-500 xs:h-7" 
-                        placeholder="username" 
+                        placeholder="имя пользователя" 
                         name="username" 
                         @input="event => authForm.username = event.target.value"
                         @keydown.enter="this.$refs.passwordInput.focus()"
@@ -32,7 +32,7 @@
                         type="password" 
                         ref="passwordInput" 
                         class="!bg-transparent w-full placeholder:text-gray-500 xs:h-7" 
-                        placeholder="password" 
+                        placeholder="пароль" 
                         name="password" 
                         v-model="authForm.password" 
                         @keydown.enter="submit()"
@@ -43,9 +43,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                     </svg>
                     <template v-else>
-                        <button v-if="authForm.registered" class="px-1 pt-[1px] pb-[2px] h-[22px] xs:h-6 bg-main text-white rounded text-sm" @click="submit()">
-                            <template v-if="authForm.registered == 'yes'">login</template> 
-                            <template v-else-if="authForm.registered == 'no'">register</template> 
+                        <button v-if="!saving && authForm.username" class="px-1 pt-[1px] pb-[2px] h-[22px] xs:h-6 bg-main text-white rounded text-sm" @click="submit()">
+                            <template v-if="authForm.registered">вход</template> 
+                            <template v-else>регистрация</template> 
                         </button>
                     </template>
                 </div>
@@ -63,33 +63,30 @@
     import { ref, watch } from 'vue';
     import axios from 'axios';
 
-    let autoCheckTimer;
+    let userCheckTimer;
     const saving = ref(false);
     const authForm = ref({
         registered: false,
         username: '',
         password: '',
         errors: '',
-        messages: 'register or login right here'
+        messages: 'регистрация или вход'
     });
     
     watch(() => authForm.value.username, (username) => {
         saving.value = true;
 
-        if(autoCheckTimer){
-            clearTimeout(autoCheckTimer);
-        }
-
-        if(username.length){
+        if(userCheckTimer) clearTimeout(userCheckTimer);
+        
+        if(username.length) {
             authForm.value.errors = '';
             authForm.value.registered = false;
 
-            autoCheckTimer = setTimeout(() => {
+            userCheckTimer = setTimeout(() => {
                 axios.post('/auth/checkusername', {
                     username: authForm.value.username
                 })
                 .then(response => {
-
                     authForm.value.registered = response.data;
                 })
                 .catch(error => {
@@ -110,16 +107,24 @@
         }
     });
     function updateMessages(){
-        if(authForm.value.registered == 'yes') authForm.value.messages = 'great, now you can log in';
-        else if(authForm.value.registered == 'no') authForm.value.messages = 'great, now you can register';
-        else authForm.value.messages = 'registration or login';
+        if(!authForm.value.registered &&
+           !saving.value &&
+           authForm.value.username
+        ) {
+            authForm.value.messages = 'отлично, теперь вы можете зарегистрироваться';
+        }
+        else if(authForm.value.registered) { 
+            authForm.value.messages = 'пользователь найден, введите пароль';
+        }else {
+            authForm.value.messages = 'регистрация или вход';
+        }
     }
     function submit(){
+        if(saving.value) return;
+
         saving.value = true;
         
-        let url = '/auth/';
-        if(authForm.value.registered == 'yes') url += 'login';
-        else if(authForm.value.registered == 'no') url += 'register';
+        let url = returnAuthUrl(authForm.value.registered);
 
         axios.post(url, {
             username: authForm.value.username,
@@ -131,7 +136,7 @@
                 window.location.replace("/");
             }
             else {
-                authForm.value.errors = 'an error occurred, try again';
+                authForm.value.errors = 'попробуйте еще раз';
                 saving.value = false;
             }
         })
@@ -144,5 +149,14 @@
             saving.value = false;
             updateMessages();
         });
+
+        function returnAuthUrl(registered) {
+            let authUrl = '/auth/';
+
+            if(registered) authUrl += 'login';
+            else authUrl += 'register';
+
+            return authUrl;
+        }
     }
 </script>

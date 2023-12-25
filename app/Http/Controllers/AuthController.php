@@ -10,50 +10,44 @@ use App\Models\User;
 class AuthController extends Controller
 {
     public function checkUsername(UserRequest $request){
-        $registered = 'no';
-
-        if(User::where(['name' => $request->username])->first()){
-            $registered = 'yes';
-        }
-
-        return $registered;
+        if(User::where(['name' => $request->username])->first()) return true;
+        else return false;
     }
     public function login(UserRequest $request){
-        if(Auth::attempt(['name' => $request->username, 'password'=> $request->password], true)){
+        if($this->tryingAttempt($request->username, $request->password)){
             $user = Auth::user();
-            $response = [
-                'success' => true,
-                'token' => $user->createToken('thedaywhen')->plainTextToken
-            ];
-            
-            return response()->json($response,200);
-        }
-        else {
-            $response = [
-                'success' => false,
-                'token' => false
-            ];
-            return response()->json($response,200);
+            $token = $user->createToken('thedaywhen')->plainTextToken;
+
+            return $this->authResult(true, $token);
+        }else {
+            return $this->authResult(false, false);
         }
     }
     public function register(UserRequest $request){
         $user = User::create(['name' => $request->username, 'password' => bcrypt($request->password)]);
+        
+        if($this->tryingAttempt($request->username, $request->password)){
+            $user = Auth::user();
+            $token = $user->createToken('thedaywhen')->plainTextToken;
 
-        if(Auth::attempt(['name' => $request->username, 'password'=> $request->password], true)){
-            $response = [
-                'success' => true,
-                'token' => $user->createToken('thedaywhen')->plainTextToken
-            ];
-            
-            return response()->json($response,200);
+            return $this->authResult(true, $token);
+        }else {
+            return $this->authResult(false, false);
         }
-        else {
-            $response = [
-                'success' => false,
-                'token' => false
-            ];
-            return response()->json($response,200);
-        }
+    }
+    private function tryingAttempt($username, $password){
+        return Auth::attempt([
+            'name' => $username, 
+            'password'=> $password
+        ], true);
+    }
+    private function authResult($success, $token){
+        $response = [
+            'success' => $success,
+            'token' => $token
+        ];
+
+        return response()->json($response, 200);
     }
     public function logout(){
         Auth::logout();

@@ -10,7 +10,7 @@ class Note extends Model
     protected $fillable = [
         'user',
         'text',
-        'day',
+        'fulldate',
         'bookmated',
         'theday',
     ];
