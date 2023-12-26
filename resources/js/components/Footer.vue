@@ -1,5 +1,5 @@
 <template>
-    <div class="h-11 w-full fixed bottom-0 left-0 bg-white shadow-menu z-30">
+    <div class="h-11 w-full fixed bottom-0 left-0 bg-white dark:bg-bg--dark shadow-menu z-30">
         <div class="sm:w-[500px] sm:mx-auto py-[8px] px-3 xs:px-4 sm:px-0 flex justify-between items-center">
             <div class="">
                 <button @click="showMenu = true">

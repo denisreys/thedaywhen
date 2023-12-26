@@ -53,6 +53,9 @@ const store = createStore({
         }
     },
     getters: {
+        getSettings(state){
+            return state.settings;
+        },
         getNotes(state){
             return state.notes;
         },

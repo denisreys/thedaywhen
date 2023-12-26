@@ -1,5 +1,5 @@
 <template>
-    <li class="bg-mylightgray rounded p-3 xs:p-4 mt-3 first:mt-0 sm:mb-4 cursor-pointer border border-[#f4f4f4]" 
+    <li class="bg-block-bg dark:bg-block-bg--dark rounded p-3 xs:p-4 mt-3 first:mt-0 sm:mb-4 cursor-pointer border border-[#f4f4f4] dark:border-block-bg-border--dark" 
         :class="{'day--active': selected}" 
         @click.stop="!selected ?  selectThisDay() : null ">
         <div class="relative flex">
@@ -7,7 +7,7 @@
                 <div class="text-2xl font-bold uppercase">{{ day.title || day.day }}</div>
                 <div class="ml-2 flex flex-col justify-around">
                     <div class="text-xs uppercase -mb-2">{{ day.dayWeek }}</div>
-                    <div class="text-xs lowercase text-gray-400">{{ day.month }}</div>
+                    <div class="text-xs lowercase text-small-text dark:text-small-text--dark">{{ day.month }}</div>
                 </div>
             </div>
             <div class="absolute right-0 top-0" v-if="noteSaving">
@@ -32,7 +32,7 @@
             </button>
         </div>
         <div class="mt-4 overflow-hidden" v-if="day.text || selected">
-            <div class="float-left bg-main text-white px-[2px] rounded mr-2 align-middle cursor-pointer"
+            <div class="float-left bg-main text-white dark:text-text--dark px-[2px] rounded mr-2 align-middle cursor-pointer"
                  @click.stop="actualNoteData.theday = 1 - actualNoteData.theday;
                               save(null, dayIndex)">
                 <button class="flex">
@@ -65,7 +65,7 @@
 </template>
 <script setup>
     import axios from 'axios';
-    import { ref, onMounted, nextTick } from 'vue';
+    import { ref, nextTick } from 'vue';
 
     const props = defineProps(['dayIndex', 'day', 'selected']);
     const emits = defineEmits(['selectThisDay', 'noteDataUpdate', 'updateDays']);
@@ -78,7 +78,7 @@
     //METHODS
     function save(e, dayIndex){
         if(saveTimer) clearTimeout(saveTimer);
-        let delayTime = 2000;
+        let delayTime = 1500;
 
         if(e !== null){
             actualNoteData.text = e.target.innerText.trim();

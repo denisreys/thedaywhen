@@ -1,5 +1,5 @@
 <template>
-    <div class="box-content sm:w-[500px] h-6 xs:h-7 mt-4 xs:mt-5 sm:mx-auto w-full bg-white bg-opacity-95 sticky bottom-[43px] py-2 flex justify-between z-30">
+    <div class="box-content sm:w-[500px] h-6 xs:h-7 mt-4 xs:mt-5 sm:mx-auto w-full bg-white dark:bg-bg--dark bg-opacity-95 sticky bottom-[43px] py-2 flex justify-between z-30">
         <div class="flex items-end">
             <div class="flex">
                 <div class="block pl-7">
@@ -9,7 +9,7 @@
                                                          bookmated: props.filters.bookmated, 
                                                          date: props.filters.date})" 
                         :checked="props.filters.hideEmpty" 
-                        class="w-5 h-5 xs:w-6 xs:h-6 -ml-7 rounded checked:bg-main after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border border-solid align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs sm:after:text-sm checked:border-0 checked:border-transparent checked:after:opacity-100" 
+                        class="w-5 h-5 xs:w-6 xs:h-6 -ml-7 rounded checked:!bg-main after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border border-solid dark:bg-block-bg--dark dark:border-none align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white dark:after:text-text--dark after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs sm:after:text-sm checked:border-0 checked:border-transparent checked:after:opacity-100" 
                         type="checkbox" />
                         <label for="hideempty" class="cursor-pointer select-none text-xs xs:text-sm xs:ml-1 leading-5 xs:leading-6">Заполненное</label>
                     </label>
@@ -23,7 +23,7 @@
                                                          bookmated: $event.target.checked, 
                                                          date: props.filters.date})" 
                         :checked="props.filters.bookmated" 
-                        class="w-5 h-5 xs:w-6 xs:h-6 -ml-7 xs:-ml-8 rounded checked:bg-main after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border border-solid align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs sm:after:text-sm checked:border-0 checked:border-transparent checked:after:opacity-100" 
+                        class="w-5 h-5 xs:w-6 xs:h-6 -ml-7 rounded checked:!bg-main after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border border-solid dark:bg-block-bg--dark dark:border-none align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white dark:after:text-text--dark after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs sm:after:text-sm checked:border-0 checked:border-transparent checked:after:opacity-100" 
                         type="checkbox"/>
                         <label for="bookmated" class="cursor-pointer select-none text-xs xs:text-sm xs:ml-1 leading-5 xs:leading-6">Избранное</label>
                     </label>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +8,7 @@
         <title>thedaywhen</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="min-h-screen">
+    <body class="min-h-screen text-[#222] bg-white dark:text-text--dark dark:bg-bg--dark">
         <div id="app" class="flex flex-col min-h-screen pt-8"></div>
     </body>
 </html>

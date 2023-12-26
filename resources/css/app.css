@@ -1,9 +1,6 @@
 * {
     -webkit-tap-highlight-color: transparent;
 }
-body {
-    color: #222;
-}
 input:focus, input:active, div[contenteditable]{
     outline: none;
 }
@@ -17,10 +14,10 @@ button:active {
     @apply border-b-2 !border-indigo-400;
 }
 .day--active {
-    @apply !bg-white sm:!bg-mylightgray !px-4 xs:px-5 !py-5 xs:!py-6 sm:py-4 !rounded-none sm:!rounded left-0 fixed bottom-0 z-40 w-full sm:w-[500px] sm:relative shadow-activeday sm:shadow-none !cursor-default;
+    @apply !bg-white dark:!bg-block-bg--dark sm:!bg-block-bg !px-4 xs:px-5 !py-5 xs:!py-6 sm:py-4 !rounded-none sm:!rounded left-0 fixed bottom-0 z-40 w-full sm:w-[500px] sm:relative shadow-activeday sm:shadow-none !cursor-default;
 }
 .days__overlay {
-    @apply fixed top-0 left-0 flex z-20 h-full w-full bg-white bg-opacity-50 backdrop-blur-sm;
+    @apply fixed top-0 left-0 flex z-20 h-full w-full bg-white dark:bg-bg--dark !bg-opacity-50 backdrop-blur-sm;
 }
 @tailwind base;
 @tailwind components;

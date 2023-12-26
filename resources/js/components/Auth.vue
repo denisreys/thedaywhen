@@ -7,12 +7,12 @@
             </div>
         </div>
         <div class="justify-self-end mb-4 sticky bottom-0">
-            <div class="bg-mylightgray relative px-3 py-2 rounded flex">
+            <div class="bg-block-bg dark:bg-block-bg--dark relative px-3 py-2 rounded flex">
                 <div class="w-full">
                     <input 
                         type="text"
                         autocapitalize="none" 
-                        class="!bg-transparent w-full placeholder:text-gray-500 xs:h-7" 
+                        class="!bg-transparent w-full placeholder:text-small-text dark:placeholder:text-small-text--dark xs:h-7" 
                         placeholder="имя пользователя" 
                         name="username" 
                         @input="event => authForm.username = event.target.value"
@@ -25,13 +25,13 @@
                     </svg>
                 </div>
             </div>
-            <div class="bg-mylightgray relative px-3 py-2 rounded flex mt-3">
+            <div class="bg-block-bg dark:bg-block-bg--dark relative px-3 py-2 rounded flex mt-3">
                 <div class="w-full">
                     <input 
                         autocapitalize="none"
                         type="password" 
                         ref="passwordInput" 
-                        class="!bg-transparent w-full placeholder:text-gray-500 xs:h-7" 
+                        class="!bg-transparent w-full dark:placeholder:text-small-text--dark xs:h-7" 
                         placeholder="пароль" 
                         name="password" 
                         v-model="authForm.password" 
@@ -43,14 +43,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                     </svg>
                     <template v-else>
-                        <button v-if="!saving && authForm.username" class="px-1 pt-[1px] pb-[2px] h-[22px] xs:h-6 bg-main text-white rounded text-sm" @click="submit()">
+                        <button v-if="!saving && authForm.username" class="px-1 pt-[1px] pb-[2px] h-[22px] xs:h-6 bg-main text-white dark:!text-text--dark rounded text-sm" @click="submit()">
                             <template v-if="authForm.registered">вход</template> 
                             <template v-else>регистрация</template> 
                         </button>
                     </template>
                 </div>
             </div>
-            <div class="text-sm xs:text-base mt-2 lowercase text-gray-400">
+            <div class="text-sm xs:text-base mt-2 lowercase text-small-text dark:text-small-text--dark">
                 <template v-if="authForm.errors">
                     <span v-for="error in authForm.errors">{{ error[0] }}</span>
                 </template>

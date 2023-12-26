@@ -62,12 +62,7 @@
     filters.value.date.end = subMonths(filters.value.date.start, 1);
     
     onMounted(() =>{
-        const cookieFilter = $cookies.get('filters');
-
-        if(cookieFilter){
-            filters.value.hideEmpty = cookieFilter.hideEmpty;
-            filters.value.bookmated = cookieFilter.bookmated;
-        }
+        setFiltersFromCookie();
 
         store.dispatch('loadNotes').then(r => {
             getDays();
@@ -76,6 +71,14 @@
     });
     
     //METHODS
+    function setFiltersFromCookie(){
+        const cookieFilter = $cookies.get('filters');
+
+        if(cookieFilter){
+            filters.value.hideEmpty = cookieFilter.hideEmpty;
+            filters.value.bookmated = cookieFilter.bookmated;
+        }
+    }
     function getDays(){
         store.state.loaders.content = true;
         

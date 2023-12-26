@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@vue/cli-plugin-pwa": "^5.0.8",
+        "@vueuse/core": "^10.7.0",
         "date-fns": "^2.30.0",
         "vue-cookie": "^1.1.4",
         "vue-cookies": "^1.8.3",

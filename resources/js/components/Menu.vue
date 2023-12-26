@@ -1,12 +1,12 @@
 <template>
     <div :class="!showMenu ? 'hideMenu' : ''" class="fixed left-0 top-0 w-full h-full z-50">
         <div class="overlay w-full h-full bg-black bg-opacity-40 cursor-pointer backdrop-blur-sm" @click="$emit('hideMenu')">
-            <div class="bg-white h-full w-3/4 max-w-sm cursor-default slide" @click.stop>
-                <div class="w-full h-1/4 bg-main flex">
+            <div class="bg-white dark:bg-bg--dark flex flex-col h-full w-3/4 max-w-sm cursor-default slide" @click.stop>
+                <div class="w-full h-1/2 bg-main flex">
                     <img class="h-6 xs:h-7 my-auto ml-5" src="/images/logo-w.png" alt="thedaywhen">
                 </div>
-                <div class="py-8 px-5">
-                    <ul class="">
+                <div class="py-8 px-5 h-full">
+                    <ul class="flex-1">
                         <li class="mb-4 opacity-20 cursor-default">
                             <a class="block">
                                 <span class="float-left mr-4">
@@ -30,12 +30,33 @@
                         </li>
                     </ul>
                 </div>
+                <div class="self-end px-4 py-3">
+                    <ul class="flex">
+                        <li class="">
+                            <button class="" @click="toggleDark()">
+                                <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z" clip-rule="evenodd" />
+                                </svg>
+                                <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                                </svg>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script setup>
     import axios from 'axios';
+    import { computed } from 'vue';
+    import { useStore} from 'vuex';
+    import { useDark, useToggle } from '@vueuse/core';
+
+    const store = useStore();
+    const isDark = useDark()
+    const toggleDark = useToggle(isDark)
 
     defineProps(['showMenu']);
 
