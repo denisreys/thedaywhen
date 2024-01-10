@@ -1,72 +1,53 @@
 <template>
     <div :class="!showMenu ? 'hideMenu' : ''" class="fixed left-0 top-0 w-full h-full z-50">
         <div class="overlay w-full h-full bg-black bg-opacity-40 cursor-pointer backdrop-blur-sm" @click="$emit('hideMenu')">
-            <div class="bg-white dark:bg-bg--dark flex flex-col h-full w-3/4 max-w-sm cursor-default slide" @click.stop>
-                <div class="w-full h-1/2 bg-main flex">
-                    <img class="h-6 xs:h-7 my-auto ml-5" src="/images/logo-w.png" alt="thedaywhen">
-                </div>
-                <div class="py-8 px-5 h-full">
-                    <ul class="flex-1">
-                        <li class="mb-4 opacity-20 cursor-default">
-                            <a class="block">
-                                <span class="float-left mr-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </span>
-                                <span>Настройки</span>
+            <div class="bg-white dark:bg-bg--dark flex flex-col h-full w-4/5 max-w-sm cursor-default slide" @click.stop>
+                <div class="w-full h-1/2 bg-main flex flex-col justify-between relative px-5 pt-5">
+                    <div class="flex-1 flex">
+                        <div class="my-auto">
+                            <img class="h-6 xs:h-8 lg:h-7 my-auto dark:opacity-90" src="/images/logo-w.png" alt="thedaywhen">
+                        </div>
+                        <button @click="toggleDark()" class="absolute top-3 right-3">
+                            <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-white w-6 h-6 xs:w-7 xs:h-7">
+                            <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" />
+                            </svg>
+                            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-white w-6 h-6 xs:w-7 xs:h-7">
+                            <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                    <ul class="flex">
+                        <li v-for="(tab, tabIndex) in tabs" class="mr-3 xs:mr-4 last:mr-0 border-b-4 border-transparent text-text--dark" :class="{'border-white !text-white': tabIndex == selectedTab}">
+                            <a class="block pb-2 cursor-pointer " @click="selectedTab = tabIndex">
+                                {{ tab.name }}
                             </a>
                         </li>
-                        <li class="">
-                            <button class="block" @click="logout()">
-                                <span class="float-left mr-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-                                    </svg>
-                                </span>
-                                <span>Выйти</span>
-                            </button>
-                        </li>
                     </ul>
                 </div>
-                <div class="self-end px-4 py-3">
-                    <ul class="flex">
-                        <li class="">
-                            <button class="" @click="toggleDark()">
-                                <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z" clip-rule="evenodd" />
-                                </svg>
-                                <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-                                </svg>
-                            </button>
-                        </li>
-                    </ul>
+                <div class="py-8 px-5 h-full overflow-y-auto" v-if="showMenu">
+                    <achievementsBlock v-if="selectedTab == 0"/>
+                    <settingsBlock v-else-if="selectedTab == 1"/>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script setup>
-    import axios from 'axios';
-    import { computed } from 'vue';
-    import { useStore} from 'vuex';
+    import achievementsBlock from './MenuAchievements.vue';
+    import settingsBlock from './MenuSettings.vue';
+    import { ref } from 'vue';
     import { useDark, useToggle } from '@vueuse/core';
-
-    const store = useStore();
-    const isDark = useDark()
-    const toggleDark = useToggle(isDark)
 
     defineProps(['showMenu']);
 
-    function logout(){
-        axios.post('/auth/logout')
-        .then(() => {
-            localStorage.removeItem('token');
-            window.location.replace('/auth');
-        });
-    }
+    let selectedTab = ref(0);
+    let tabs = [
+        { name: 'Достижения', },
+        { name: 'Настройки', },
+    ];
+    
+    const isDark = useDark();
+    const toggleDark = useToggle(isDark);
 </script>
 <style>
     .slide, .overlay {

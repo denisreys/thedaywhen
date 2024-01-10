@@ -8,7 +8,7 @@ button:active {
     opacity: 0.8;
 }
 .adaptive-section {
-    @apply px-4 xs:px-5 box-content sm:w-[500px] sm:mx-auto;
+    @apply px-3 xs:px-4 box-content sm:w-[500px] sm:mx-auto;
 }
 .admin-tab--active {
     @apply border-b-2 !border-indigo-400;
@@ -18,6 +18,9 @@ button:active {
 }
 .days__overlay {
     @apply fixed top-0 left-0 flex z-20 h-full w-full bg-white dark:bg-bg--dark !bg-opacity-50 backdrop-blur-sm;
+}
+.achievement--done {
+    @apply opacity-50 !order-2;
 }
 @tailwind base;
 @tailwind components;

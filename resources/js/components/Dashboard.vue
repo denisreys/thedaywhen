@@ -40,9 +40,9 @@
     import Footer from './Footer.vue';
     import dayComponent from './DashboardDay.vue';
     import daysFiltersComponent from './DashboardDaysFilters.vue';
-    import { format, parse, addDays, subMonths, getDaysInMonth } from 'date-fns';
+    import { format, parse, addDays, subDays, subMonths, getDaysInMonth } from 'date-fns';
     import { ru } from 'date-fns/locale';
-    import { ref, onMounted, nextTick, watch } from 'vue';
+    import { ref, onMounted, nextTick } from 'vue';
     import { useStore } from 'vuex';
 
     const store = useStore();
@@ -59,7 +59,7 @@
         takeDays: 0,
     });
     filters.value.takeDays = getDaysInMonth(filters.value.date.start);
-    filters.value.date.end = subMonths(filters.value.date.start, 1);
+    filters.value.date.end = subDays(filters.value.date.start, filters.value.takeDays - 1);
     
     onMounted(() =>{
         setFiltersFromCookie();
@@ -72,7 +72,7 @@
     
     //METHODS
     function setFiltersFromCookie(){
-        const cookieFilter = $cookies.get('filters');
+        const cookieFilter = JSON.parse(localStorage.getItem('filters'));
 
         if(cookieFilter){
             filters.value.hideEmpty = cookieFilter.hideEmpty;
@@ -164,6 +164,6 @@
         
         getDays();
         scrollToToday();
-        $cookies.set("filters", filters.value, "360d");
+        localStorage.setItem('filters', JSON.stringify(filters.value));
     }
 </script>

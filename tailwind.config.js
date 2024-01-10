@@ -11,7 +11,7 @@ export default {
       colors: {
         'main': '#C1B2D9',
         'block-bg': '#F9F9F9',
-        'block-bg--dark': '#3f3f3f',
+        'block-bg--dark': '#373737',
         'block-bg-border': '#F9F9F9',
         'block-bg-border--dark': '#2d2d2d',
         'bg--dark': '#2f2f2f',
@@ -25,7 +25,7 @@ export default {
         activeday: '0px -5px 5px rgba(0, 0, 0, 0.05)',
       },
       screens: {
-        'xs': '420px',
+        'xs': '410px',
       }
     },
   },

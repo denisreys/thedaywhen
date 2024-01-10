@@ -3,7 +3,6 @@ import router from './router.js';
 import { createStore } from 'vuex';
 import App from './layouts/App.vue';
 import axios from 'axios';
-import VueCookies from 'vue-cookies';
 import { format } from 'date-fns';
 
 const store = createStore({
@@ -53,9 +52,6 @@ const store = createStore({
         }
     },
     getters: {
-        getSettings(state){
-            return state.settings;
-        },
         getNotes(state){
             return state.notes;
         },
@@ -84,5 +80,4 @@ const store = createStore({
 createApp(App)
     .use(router)
     .use(store)
-    .use(VueCookies)
     .mount('#app');

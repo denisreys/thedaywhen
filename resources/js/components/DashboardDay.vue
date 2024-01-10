@@ -1,10 +1,10 @@
 <template>
-    <li class="bg-block-bg dark:bg-block-bg--dark rounded p-3 xs:p-4 mt-3 first:mt-0 sm:mb-4 cursor-pointer border border-[#f4f4f4] dark:border-block-bg-border--dark" 
+    <li class="bg-block-bg dark:bg-block-bg--dark rounded p-3 xs:p-4 mt-2 xs:mt-3 first:mt-0 sm:mb-4 cursor-pointer border border-[#f4f4f4] dark:border-block-bg-border--dark" 
         :class="{'day--active': selected}" 
         @click.stop="!selected ?  selectThisDay() : null ">
         <div class="relative flex">
             <div class="flex mx-auto">
-                <div class="text-2xl font-bold uppercase">{{ day.title || day.day }}</div>
+                <div class="text-[28px] leading-none font-bold uppercase">{{ day.title || day.day }}</div>
                 <div class="ml-2 flex flex-col justify-around">
                     <div class="text-xs uppercase -mb-2">{{ day.dayWeek }}</div>
                     <div class="text-xs lowercase text-small-text dark:text-small-text--dark">{{ day.month }}</div>
@@ -37,7 +37,7 @@
                               save(null, dayIndex)">
                 <button class="flex">
                     <template v-if="actualNoteData.theday">
-                        <span class="my-auto mx-1">День, когда</span>
+                        <span class="my-auto mx-1 text-white">День, когда</span>
                         <span class="my-auto" v-if="selected">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                             <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
