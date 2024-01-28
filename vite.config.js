@@ -26,7 +26,7 @@ export default defineConfig({
                 scope: "/",
                 description: "remember every day",
                 display: "standalone",
-                theme_color: "#C1B2D9",
+                theme_color: "#8c819c",
                 background_color: "#C1B2D9",
                 icons: [
                     {

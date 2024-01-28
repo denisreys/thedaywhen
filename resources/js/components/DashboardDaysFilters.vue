@@ -1,5 +1,5 @@
 <template>
-    <div class="box-content sm:w-[500px] h-6 xs:h-7 mt-4 xs:mt-5 sm:mx-auto w-full bg-white dark:bg-bg--dark bg-opacity-95 sticky bottom-[43px] py-2 flex justify-between z-30">
+    <div class="box-content sm:w-[500px] h-6 xs:h-7 mt-4 xs:mt-5 sm:mx-auto w-full bg-white dark:bg-bg--dark !bg-opacity-95 sticky bottom-12 py-2 flex justify-between z-30">
         <div class="flex items-end">
             <div class="flex">
                 <div class="block pl-7">
@@ -9,7 +9,7 @@
                                                          bookmated: props.filters.bookmated, 
                                                          date: props.filters.date})" 
                         :checked="props.filters.hideEmpty" 
-                        class="w-5 h-5 xs:w-6 xs:h-6  -ml-7 rounded checked:!bg-main after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border border-solid dark:bg-block-bg--dark dark:border-none align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white dark:after:text-text--dark after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs sm:after:text-sm checked:border-0 checked:border-transparent checked:after:opacity-100" 
+                        class="w-5 h-5 xs:w-6 xs:h-6  -ml-7 rounded-md checked:bg-main dark:checked:bg-main--dark after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border dark:bg-block-bg--dark border-block-border dark:border-block-border--dark align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white dark:after:text-text--dark after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs sm:after:text-sm checked:border-0 checked:border-transparent checked:after:opacity-100" 
                         type="checkbox" />
                         <label for="hideempty" class="cursor-pointer select-none text-xs ml-1 xs:text-sm xs:ml-2">Заполненное</label>
                     </label>
@@ -23,7 +23,7 @@
                                                          bookmated: $event.target.checked, 
                                                          date: props.filters.date})" 
                         :checked="props.filters.bookmated" 
-                        class="w-5 h-5 xs:w-6 xs:h-6  -ml-7 rounded checked:!bg-main after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border border-solid dark:bg-block-bg--dark dark:border-none align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white dark:after:text-text--dark after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs sm:after:text-sm checked:border-0 checked:border-transparent checked:after:opacity-100" 
+                        class="w-5 h-5 xs:w-6 xs:h-6  -ml-7 rounded-md checked:bg-main dark:checked:bg-main--dark after:duration-250 after:ease-soft-in-out duration-250 relative float-left cursor-pointer appearance-none border dark:bg-block-bg--dark dark:border-block-border--dark align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white dark:after:text-text--dark after:opacity-0 after:transition-all after:content-['\2713'] after:text-xs sm:after:text-sm checked:border-0 checked:border-transparent checked:after:opacity-100" 
                         type="checkbox"/>
                         <label for="bookmated" class="cursor-pointer select-none text-xs ml-1 xs:text-sm xs:ml-2">Избранное</label>
                     </label>
@@ -38,7 +38,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="text-sm px-1 align-bottom h-full leading-6 xs:leading-8 lg:leading-7">{{ filterDateTitle }}</div>
+            <div class="text-sm px-1 align-bottom h-full leading-6 cursor-pointer xs:leading-8 lg:leading-7" @click="scrollToBottom()">{{ filterDateTitle }}</div>
             <div class="">
                 <button @click="changeMonth('next')" :class="{'cursor-default opacity-40': nowIsThisMonth}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6 xs:w-8 xs:h-8 lg:w-7 lg:h-7">
@@ -61,6 +61,7 @@
         return format(props.filters.date.start, 'MM/yyyy');
     })
 
+    //METHODS
     function changeMonth(action){
         let newFilters = {
             hideEmpty: props.filters.hideEmpty, 
@@ -70,7 +71,6 @@
                 start: props.filters.date.start,
                 end: props.filters.date.end,
             },
-            skipDays: 0
         };
 
         if(action == 'next'){
@@ -91,5 +91,8 @@
         newFilters.takeDays = getDaysInMonth(newFilters.date.start);
 
         emit('updateFilters', newFilters);
+    }
+    function scrollToBottom(){
+        window.scrollTo(0, document.body.scrollHeight);
     }
 </script>

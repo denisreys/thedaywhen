@@ -73,7 +73,9 @@ const store = createStore({
 
             return filteredNotes;
         },
-
+        getBookmatedNotes: (state) => {
+            return state.notes.filter((note) => note.bookmated);
+        }
     }
 })
 

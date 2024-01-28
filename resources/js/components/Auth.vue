@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="justify-self-end mb-4 sticky bottom-0">
-            <div class="bg-block-bg dark:bg-block-bg--dark relative px-3 py-2 rounded flex">
+            <div class="bg-block-bg dark:bg-block-bg--dark border border-block-border dark:border-block-border--dark relative px-3 py-2 rounded-md flex">
                 <div class="w-full">
                     <input 
                         type="text"
@@ -25,7 +25,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="bg-block-bg dark:bg-block-bg--dark relative px-3 py-2 rounded flex mt-3">
+            <div class="bg-block-bg dark:bg-block-bg--dark border border-block-border dark:border-block-border--dark relative px-3 py-2 rounded-md flex mt-3">
                 <div class="w-full">
                     <input 
                         autocapitalize="none"
@@ -43,7 +43,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                     </svg>
                     <template v-else>
-                        <button v-if="!saving && authForm.username" class="px-1 pt-[1px] pb-[2px] h-[22px] xs:h-6 bg-main text-white dark:!text-text--dark rounded text-sm" @click="submit()">
+                        <button v-if="!saving && authForm.username" class="px-1 pt-[1px] pb-[2px] h-[22px] xs:h-6 bg-main text-white dark:!text-text--dark rounded-md text-sm" @click="submit()">
                             <template v-if="authForm.registered">вход</template> 
                             <template v-else>регистрация</template> 
                         </button>

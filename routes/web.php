@@ -22,6 +22,7 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 
 Route::get('/notes', [NoteController::class, 'index']);
 Route::post('/notes/createorupdate', [NoteController::class, 'createorupdate']);
+Route::post('/notes/updateBookmated', [NoteController::class, 'updateBookmated']);
 
 Route::get('{any?}', function () {
     return view('app');

@@ -1,5 +1,5 @@
 <template>
-    <div class="adaptive-section mt-4 mb-10 flex-1 flex flex-col items-stretch relative">
+    <div class="adaptive-section mt-4 mb-12 flex-1 flex flex-col items-stretch relative">
         <div class="flex flex-col justify-end relative flex-1">
             <div v-if="store.state.loaders.content" class="days__overlay">
                 <div class="flex m-auto">
@@ -8,24 +8,20 @@
                     </svg>
                 </div>
             </div>
-            <div class="days__overlay cursor-pointer" v-if="selectDay != null" @click="selectDay = null; getDays();"></div> 
-            <template v-if="days && days.length">
-                <ul>
-                    <dayComponent 
-                        v-for="(day, dayIndex) in days" 
-                        :key="day.fulldate" 
-                        :dayIndex="dayIndex" 
-                        :day="day" 
-                        :selected="selectDay == dayIndex"
-                        @selectThisDay="(newSelectedDay) => selectDay = newSelectedDay"
-                        @noteDataUpdate="(newNoteData) => store.commit('setNote', newNoteData)"
-                        @updateDays="getDays()"
-                    />
-                </ul>
-            </template>
-            <div class="flex m-auto" v-else>
-                <template v-if="filters.bookmated">в избранном пока ничего нет</template>
-                <template v-else-if="filters.hideEmpty">пока пусто</template>
+            <TransitionGroup name="list" tag="ul">
+                <dayComponent 
+                    v-for="(day, dayIndex) in days" 
+                    :key="day.fulldate" 
+                    :dayIndex="dayIndex" 
+                    :day="day" 
+                    @selectThisDay="(newSelectedDay) => selectedDay = newSelectedDay"
+                    @noteDataUpdate="(newNoteData) => store.commit('setNote', newNoteData)"
+                    @updateDays="getDays()"
+                />
+            </TransitionGroup>
+            <div class="flex m-auto" v-show="!days.length">
+                <template v-if="filters.bookmated">В этом месяце в избранном пока ничего нет</template>
+                <template v-else-if="filters.hideEmpty">В этом месяце вы пока ничего не писали</template>
             </div>
         </div>
         <component
@@ -34,19 +30,27 @@
             @updateFilters="updateFilters">
         </component>
     </div>
-    <Footer />
+    <writingPanelComponent
+        v-if="selectedDay"
+        :selectedDay="days[selectedDay]"
+        @noteDataUpdate="(newNoteData) => store.commit('setNote', newNoteData)"
+        @updateDays="getDays()"
+        @unSelect="selectedDay = null"
+    />
+    <Footer/>
 </template>
 <script setup>
     import Footer from './Footer.vue';
     import dayComponent from './DashboardDay.vue';
+    import writingPanelComponent from './DashboardWritingPanel.vue';
     import daysFiltersComponent from './DashboardDaysFilters.vue';
-    import { format, parse, addDays, subDays, subMonths, getDaysInMonth } from 'date-fns';
+    import { format, parse, addDays, subDays, getDaysInMonth, isWeekend } from 'date-fns';
     import { ru } from 'date-fns/locale';
     import { ref, onMounted, nextTick } from 'vue';
     import { useStore } from 'vuex';
 
     const store = useStore();
-    const selectDay = ref(null);
+    const selectedDay = ref(null);
     const days = ref([]);
 
     const filters = ref({
@@ -66,7 +70,11 @@
 
         store.dispatch('loadNotes').then(r => {
             getDays();
-            scrollToToday();
+            
+            nextTick(() => {
+                scrollToToday();
+                selectToday();
+            }) 
         });
     });
     
@@ -93,7 +101,7 @@
             const lastDayKey = newDaysList.length - 1;
 
             if(newDaysList[lastDayKey].fulldate == format(new Date(), 'yyyy-MM-dd')){
-                newDaysList[lastDayKey].title = 'Сегодня';
+                newDaysList[lastDayKey].states.today = true;
             }
         }
 
@@ -143,21 +151,38 @@
         return days;
     }
     function getDayInfo(date, note){
+        const monthAndDay = format(date, 'MM-dd');
         if(!note) note = { id: null, text: '', theday: 1, bookmated: 0 };
 
         return {
             fulldate: format(date, 'yyyy-MM-dd'),
             day: format(date, 'dd'),
-            month: format(date, 'MMMM', {locale: ru}),
-            dayWeek: format(date, 'EEEEEE', {locale: ru}),
-            title: '',
+            month: format(date, 'MMMM', { locale: ru }),
+            dayWeek: format(date, 'EEEEEE', { locale: ru }),
             text: note.text,
             theday: note.theday,
             bookmated: note.bookmated,
+            noteId: note.id,
+            states: {
+                 today: false, 
+                 weekend: isWeekend(date),
+                 newYear: monthAndDay == '12-31',
+                 christmas: monthAndDay == '12-25' || monthAndDay == '01-07',
+                 firstDayOfWinter: monthAndDay == '12-01',
+                 firstDayOfSpring: monthAndDay == '03-01',
+                 firstDayOfSummer: monthAndDay == '06-01',
+                 firstDayOfAutumn: monthAndDay == '09-01',
+            }
         };
     }
     function scrollToToday(){
         nextTick(() => window.scrollTo(0, document.body.scrollHeight));
+    }
+    function selectToday(){
+        const lastDayKey = days.value.length - 1;
+        const lastDay = days.value[lastDayKey];
+
+        if(!lastDay.text) selectedDay.value = lastDayKey;
     }
     function updateFilters(newFilters){
         filters.value = {...filters.value, ...newFilters};
@@ -167,3 +192,11 @@
         localStorage.setItem('filters', JSON.stringify(filters.value));
     }
 </script>
+<style scoped>
+    .list-enter-active {
+        transition: all 0.3s ease;
+    }
+    .list-enter-from {
+        opacity: 0;
+    }
+</style>

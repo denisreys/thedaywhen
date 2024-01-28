@@ -1,112 +1,81 @@
 <template>
-    <li class="bg-block-bg dark:bg-block-bg--dark rounded p-3 xs:p-4 mt-2 xs:mt-3 first:mt-0 sm:mb-4 cursor-pointer border border-[#f4f4f4] dark:border-block-bg-border--dark" 
-        :class="{'day--active': selected}" 
-        @click.stop="!selected ?  selectThisDay() : null ">
-        <div class="relative flex">
+    <li class="bg-block-bg dark:bg-[#2e2e31] rounded-md p-3 xs:p-4 sm:p-4 mt-[5px] sm:mt-2 first:mt-0 cursor-pointer border border-block-bg-border dark:border-[#262629]" 
+        @click.stop="emits('selectThisDay', props.dayIndex);">
+        <div class="relative flex items-center">
+            <ul class="flex absolute left-0">
+                <li v-if="day.states.christmas" class="mr-1" title="Рождество!">
+                    <iconChristmasTree class="fill-text dark:fill-text--dark"/>
+                </li>
+                <li v-else-if="day.states.newYear" class="mr-1" title="Новый год!">
+                    <iconFireworks class="fill-text dark:fill-text--dark"/>
+                </li>
+                <li v-else-if="day.states.firstDayOfWinter" class="mr-1" title="Первый день зимы!">
+                    <iconSnowflake class="fill-text dark:fill-text--dark"/>
+                </li>                     
+                <li v-else-if="day.states.firstDayOfSpring" class="mr-1" title="Первый день весны!">
+                    <iconSpring class="fill-text dark:fill-text--dark"/>
+                </li>   
+                <li v-else-if="day.states.firstDayOfSummer" class="mr-1" title="Первый день лета!">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                    </svg>
+                </li>                   
+                <li v-else-if="day.states.firstDayOfAutumn" class="mr-1" title="Первый день осени.">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z" />
+                    </svg>
+                </li>                                         
+            </ul>
             <div class="flex mx-auto">
-                <div class="text-[28px] leading-none font-bold uppercase">{{ day.title || day.day }}</div>
+                <div class="text-[28px] leading-none font-semibold uppercase">
+                    {{ (!day.states.today) ? day.day : 'Сегодня' }}
+                </div>
                 <div class="ml-2 flex flex-col justify-around">
-                    <div class="text-xs uppercase -mb-2">{{ day.dayWeek }}</div>
+                    <div class="text-xs uppercase -mb-2 font-semibold" :class="{'text-orange-300': day.states.weekend}">{{ day.dayWeek }}</div>
                     <div class="text-xs lowercase text-small-text dark:text-small-text--dark">{{ day.month }}</div>
                 </div>
             </div>
-            <div class="absolute right-0 top-0" v-if="noteSaving">
-                <svg class="w-4 h-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                </svg>
-            </div>
-            <button v-else-if="!noteSaving && day.text.length > 0" 
+            <button v-if="day.text.length > 0" 
                     class="absolute right-0 top-0" 
-                    @click.stop="actualNoteData.bookmated = 1 - actualNoteData.bookmated;
-                                 save(null, dayIndex)">
-                <template v-if="actualNoteData.bookmated">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 xs:w-6 xs:h-6 fill-red-500">
-                    <path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" />
-                    </svg>
-                </template>
-                <template v-else>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 xs:w-6 xs:h-6 stroke-slate-300 hover:stroke-slate-400">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
-                    </svg>
-                </template>
+                    @click.stop="updateBookmated()">
+                <svg v-if="day.bookmated" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 xs:w-6 xs:h-6 text-red-500">
+                <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 xs:w-6 xs:h-6 text-small-text dark:text-small-text--dark">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                </svg>
             </button>
         </div>
-        <div class="mt-4 overflow-hidden" v-if="day.text || selected">
-            <div class="float-left bg-main text-white dark:text-text--dark px-[2px] rounded mr-2 align-middle cursor-pointer"
-                 @click.stop="actualNoteData.theday = 1 - actualNoteData.theday;
-                              save(null, dayIndex)">
-                <button class="flex">
-                    <template v-if="actualNoteData.theday">
-                        <span class="my-auto mx-1 text-white">День, когда</span>
-                        <span class="my-auto" v-if="selected">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                            <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-                            </svg>
-                        </span>
-                    </template>
-                    <template v-else-if="!actualNoteData.theday && selected">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
-                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                        </svg>
-                    </template>
-                </button>
+        <div class="mt-2 xs:mt-3 overflow-hidden leading-5 sm:leading-6" v-if="day.text">
+            <div class="float-left mr-1 font-semibold" v-if="day.theday">
+                День, когда
             </div>
-            <div 
-                ref="noteInput"
-                class="cursor-text"
-                autocapitalize="none"
-                spellcheck="false"
-                contenteditable="true"
-                v-html="day.text + '<br/>'"
-                @input="event => save(event, dayIndex)"
-            ></div>
+            <div v-html="day.text"></div>
         </div>
     </li>
 </template>
 <script setup>
+    import iconChristmasTree from '../icons/IconChristmasTree.vue';
+    import iconFireworks from '../icons/IconFireworks.vue';
+    import iconSnowflake from '../icons/IconSnowflake.vue';
+    import iconSpring from '../icons/IconSpring.vue';
     import axios from 'axios';
     import { ref, nextTick } from 'vue';
 
-    const props = defineProps(['dayIndex', 'day', 'selected']);
+    const props = defineProps(['dayIndex', 'day']);
     const emits = defineEmits(['selectThisDay', 'noteDataUpdate', 'updateDays']);
     const noteInput = ref(null);
+    
+    function updateBookmated(){
+        const newBookmated = 1 - props.day.bookmated;
+        const newNoteData = {...props.day, ...{ bookmated: newBookmated }};
 
-    let noteSaving = ref(false);
-    let saveTimer;
-    let actualNoteData = Object.assign({}, props.day);
+        emits('noteDataUpdate', newNoteData);
+        emits('updateDays');
 
-    //METHODS
-    function save(e, dayIndex){
-        if(saveTimer) clearTimeout(saveTimer);
-        let delayTime = 1500;
-
-        if(e !== null){
-            actualNoteData.text = e.target.innerText.trim();
-        }
-        else delayTime = 0;
-
-        saveTimer = setTimeout(() => {
-            noteSaving.value = true;
-
-            axios.post('/notes/createorupdate', {
-                text: actualNoteData.text,
-                fulldate: actualNoteData.fulldate,
-                bookmated: actualNoteData.bookmated,
-                theday: actualNoteData.theday
-            })
-            .finally(() => {
-                emits('noteDataUpdate', actualNoteData);
-
-                if(!props.selected) emits('updateDays');
-                noteSaving.value = false;
-            });
-        }, delayTime);    
-    }
-    function selectThisDay(){
-        emits('selectThisDay', props.dayIndex);
-
-        nextTick(() => {
-            noteInput.value.focus();
+        axios.post('/notes/updateBookmated', {
+            noteId: props.day.noteId,
+            bookmated: newBookmated
         });
     }
 </script>

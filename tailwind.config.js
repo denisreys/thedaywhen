@@ -10,15 +10,17 @@ export default {
     extend: {
       colors: {
         'main': '#C1B2D9',
+        'main--dark': '#8c819c',
+        'bg--dark': '#28282b',//#2e2e30
         'block-bg': '#F9F9F9',
-        'block-bg--dark': '#373737',
-        'block-bg-border': '#F9F9F9',
-        'block-bg-border--dark': '#2d2d2d',
-        'bg--dark': '#2f2f2f',
+        'block-bg--dark': '#2e2e31',
+        'block-border': '#f4f4f4',
+        'block-border--dark': '#262629',
+        
         'small-text': '#bdbdbd',
         'small-text--dark': '#8f8f8f',
-        'text--dark': '#e9e8e8',
-        
+        'text': '#222',
+        'text--dark': '#e9e6ec',
       },
       boxShadow: {
         menu: '0px -3px 4px rgba(0, 0, 0, 0.05)',

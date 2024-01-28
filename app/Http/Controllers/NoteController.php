@@ -15,16 +15,18 @@ class NoteController extends Controller
 
         return response()->json($notes, 200);
     }
-    public function createorupdate(Request $request)
-    {
-        if(strlen($request->text) > 0){
+    public function createorupdate(Request $request){
+        $textOnlyWithBr = strip_tags($request->text, '<br><u><b><i>');
+        $textWithoutTags = strip_tags($textOnlyWithBr);
+
+        if(strlen($textWithoutTags) > 0){
             return Note::updateOrCreate(
                 [
                     'user' => Auth::id(), 
                     'fulldate' => $request->fulldate
                 ], 
                 [
-                    'text' => $request->text, 
+                    'text' => $textOnlyWithBr, 
                     'bookmated' => $request->bookmated, 
                     'theday' => $request->theday
                 ]);
@@ -32,5 +34,8 @@ class NoteController extends Controller
         else {
             Note::where(['user' => Auth::id(), 'fulldate' => $request->fulldate])->delete();
         }
+    }
+    public function updateBookmated(Request $request){
+        Note::where(['id' => $request->noteId, 'user' => Auth::id()])->update(['bookmated' => $request->bookmated]);
     }
 }
