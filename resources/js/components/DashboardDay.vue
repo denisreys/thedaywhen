@@ -2,30 +2,9 @@
     <li class="bg-block-bg dark:bg-[#2e2e31] rounded-md p-3 xs:p-4 sm:p-4 mt-[5px] sm:mt-2 first:mt-0 cursor-pointer border border-block-bg-border dark:border-[#262629]" 
         @click.stop="emits('selectThisDay', props.dayIndex);">
         <div class="relative flex items-center">
-            <ul class="flex absolute left-0">
-                <li v-if="day.states.christmas" class="mr-1" title="Рождество!">
-                    <iconChristmasTree class="fill-text dark:fill-text--dark"/>
-                </li>
-                <li v-else-if="day.states.newYear" class="mr-1" title="Новый год!">
-                    <iconFireworks class="fill-text dark:fill-text--dark"/>
-                </li>
-                <li v-else-if="day.states.firstDayOfWinter" class="mr-1" title="Первый день зимы!">
-                    <iconSnowflake class="fill-text dark:fill-text--dark"/>
-                </li>                     
-                <li v-else-if="day.states.firstDayOfSpring" class="mr-1" title="Первый день весны!">
-                    <iconSpring class="fill-text dark:fill-text--dark"/>
-                </li>   
-                <li v-else-if="day.states.firstDayOfSummer" class="mr-1" title="Первый день лета!">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                    </svg>
-                </li>                   
-                <li v-else-if="day.states.firstDayOfAutumn" class="mr-1" title="Первый день осени.">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z" />
-                    </svg>
-                </li>                                         
-            </ul>
+            <marksBlock
+                :marks="day.states"
+            />
             <div class="flex mx-auto">
                 <div class="text-[28px] leading-none font-semibold uppercase">
                     {{ (!day.states.today) ? day.day : 'Сегодня' }}
@@ -55,10 +34,7 @@
     </li>
 </template>
 <script setup>
-    import iconChristmasTree from '../icons/IconChristmasTree.vue';
-    import iconFireworks from '../icons/IconFireworks.vue';
-    import iconSnowflake from '../icons/IconSnowflake.vue';
-    import iconSpring from '../icons/IconSpring.vue';
+    import marksBlock from './DashboardDayMarks.vue';
     import axios from 'axios';
     import { ref, nextTick } from 'vue';
 

@@ -1,8 +1,8 @@
 <template>
     <div :class="!showMenu ? 'hideMenu' : ''" class="fixed left-0 top-0 w-full h-full z-50">
         <div class="overlay w-full h-full bg-black bg-opacity-40 cursor-pointer backdrop-blur-sm" @click="$emit('hideMenu')">
-            <div class="bg-white dark:bg-bg--dark flex flex-col h-full w-[85%] xs:w-[80%] max-w-sm cursor-default slide relative" @click.stop>
-                <div class="px-2 xs:px-3 py-4 xs:py-5 flex-1 flex justify-between bg-main dark:bg-[#8c819c]">
+            <div class="bg-white dark:bg-bg--dark flex flex-col h-full w-[90%] xs:w-[85%] max-w-sm cursor-default slide relative" @click.stop>
+                <div class="px-3 xs:px-4 py-5 xs:py-6 flex-1 flex justify-between bg-main dark:bg-[#8c819c]">
                     <div class="my-auto">
                         <img class="h-5 xs:h-6 my-auto dark:opacity-90" src="/images/logo-w.png" alt="thedaywhen">
                     </div>
@@ -17,18 +17,21 @@
                         </button>
                     </div>
                 </div>
-                <div class="py-5 xs:py-6 px-2 xs:px-3 flex flex-col items-stretch h-full overflow-y-auto" v-if="showMenu">
+                <div class="py-7 xs:py-8 px-3 xs:px-4 flex flex-col items-stretch h-full overflow-y-auto" v-if="showMenu">
                     <div class="flex-1 flex flex-col justify-end">
                         <KeepAlive>
                             <achievementsBlock v-if="selectedTab == 0"/>
-                            <settingsBlock v-else-if="selectedTab == 1"/>
+                            <updatesBlock v-else-if="selectedTab == 1"/>
+                            <helpBlock v-else-if="selectedTab == 2"/>
+                            <settingsBlock v-else-if="selectedTab == 3"/>
                         </KeepAlive>
                     </div>
                 </div>
-                <ul class="flex px-2 xs:px-3 py-3 bg-block-bg dark:bg-block-bg--dark border-t border-block-border dark:border-block-border--dark shadow-menu">
-                    <li v-for="(tab, tabIndex) in tabs" class="px-3 py-1 text-sm text-small-text rounded-full last:mr-0" :class="{'!bg-main dark:!bg-main--dark !text-white dark:!text-text--dark': tabIndex == selectedTab}">
-                        <a class="block cursor-pointer font-semibold" @click="selectedTab = tabIndex">
-                            {{ tab.name }}
+                <ul class="flex px-1 xs:px-2 py-1 bg-block-bg dark:bg-block-bg--dark border-t border-block-border dark:border-block-border--dark shadow-menu">
+                    <li v-for="(tab, tabIndex) in tabs" class="text-xs text-small-text flex-1 text-center rounded" :class="{'!bg-main dark:!bg-bg--dark !text-white dark:!text-text--dark;': tabIndex == selectedTab}">
+                        <a class="block cursor-pointer py-1" @click="selectedTab = tabIndex">
+                            <component class="m-auto !w-5 !h-5" :is="tab.icon"></component>
+                            <span class="hidden xs:block">{{ tab.name }}</span>
                         </a>
                     </li>
                 </ul>
@@ -37,8 +40,14 @@
     </div>
 </template>
 <script setup>
+    import iconTrophy from '../icons/IconTrophy.vue';
+    import iconCog from '../icons/IconCog.vue';
+    import iconQuestion from '../icons/IconQuestion.vue';
+    import iconUpdates from '../icons/IconUpdates.vue';
     import achievementsBlock from './MenuAchievements.vue';
     import settingsBlock from './MenuSettings.vue';
+    import updatesBlock from './MenuUpdates.vue';
+    import helpBlock from './MenuHelp.vue';
     import { ref } from 'vue';
     import { useDark, useToggle } from '@vueuse/core';
 
@@ -46,8 +55,10 @@
 
     let selectedTab = ref(0);
     let tabs = [
-        { name: 'Достижения' },
-        { name: 'Настройки' },
+        { name: 'Достижения', icon: iconTrophy},
+        { name: 'Обновления', icon: iconUpdates },
+        { name: 'Помощь', icon: iconQuestion },
+        { name: 'Настройки', icon: iconCog },
     ];
     
     const isDark = useDark();

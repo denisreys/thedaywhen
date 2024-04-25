@@ -62,10 +62,10 @@
             </div>
             <div class="mt-4 flex justify-between items-center pt-2 xs:pt-3 border-t border-block-bg-border dark:border-block-bg--dark">
                 <div class="text-xs text-small-text dark:text-small-text--dark" :class="{'opacity-20': noteTextNoHtml.length == 0}">
-                    <span class="float-left mr-1" :class="{'text-red-500': noteTextNoHtml.length > 1000}">
+                    <span class="float-left mr-1" :class="{'text-red-500': noteTextNoHtml.length > 2000}">
                         {{ noteTextNoHtml.length }}
                     </span>
-                    <span>из 1000</span>
+                    <span>из 2000</span>
                 </div>
                 <ul class="flex float-right opacity-20 text-small-text dark:text-small-text--dark" :class="{'!opacity-100': noteTextNoHtml.length}">
                     <li class="mr-2">
@@ -98,9 +98,10 @@
 <script setup>
     import axios from 'axios';
     import { ref, nextTick, onMounted } from 'vue';
+    const emits = defineEmits(['noteDataUpdate', 'updateDays', 'unSelect']);
 
     const props = defineProps(['selectedDay']);
-    const emits = defineEmits(['noteDataUpdate', 'updateDays', 'unSelect']);
+
     const noteInput = ref(null);
     let noteSaving = ref(false);
     let actualNoteData = ref(Object.assign({}, props.selectedDay));
@@ -135,7 +136,7 @@
     function updateActualText(){
         noteTextNoHtml.value = noteInput.value.innerText;
 
-        if(noteTextNoHtml.value.length <= 1000){
+        if(noteTextNoHtml.value.length <= 2000){
             actualNoteData.value.text = noteInput.value.innerHTML;
         }
     }

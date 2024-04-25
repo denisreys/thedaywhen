@@ -11,6 +11,7 @@ export default {
       colors: {
         'main': '#C1B2D9',
         'main--dark': '#8c819c',
+        'bg': '#ffffff',
         'bg--dark': '#28282b',//#2e2e30
         'block-bg': '#F9F9F9',
         'block-bg--dark': '#2e2e31',

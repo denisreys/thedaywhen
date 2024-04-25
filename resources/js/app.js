@@ -5,6 +5,7 @@ import App from './layouts/App.vue';
 import axios from 'axios';
 import { format } from 'date-fns';
 
+
 const store = createStore({
     state () {
         return {
@@ -79,7 +80,7 @@ const store = createStore({
     }
 })
 
-createApp(App)
-    .use(router)
-    .use(store)
-    .mount('#app');
+const app = createApp(App);
+app.use(router)
+   .use(store)
+   .mount('#app');

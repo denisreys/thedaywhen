@@ -4,7 +4,9 @@
             <li class="" v-for="(card, index) in cards" :key="index">
                 <div class="flex">
                     <div class="flex mx-auto">
-                        <div class="mr-1 my-auto"><component :is="card.icon"></component></div>
+                        <div class="mr-1 my-auto">
+                            <component class="!w-5 !h-5" :is="card.icon"></component>
+                        </div>
                         <div class="text-2xl leading-6 font-semibold">{{ card.value }}</div>
                     </div>
                 </div>
@@ -23,7 +25,7 @@
                         <div class="text-base mr-1 font-semibold leading-none">
                             {{ achievement.lastDoneTarget.name }}
                         </div>
-                        <div class="flex whitespace-nowrap font-semibold leading-none"
+                        <div class="flex whitespace-nowrap text-sm text-small-text dark:text-small-text--dark font-bold leading-none"
                             :class="[
                                         {'!text-yellow-100': achievement.lastDoneTarget.id == 1},
                                         {'!text-yellow-200': achievement.lastDoneTarget.id == 2},
@@ -219,12 +221,6 @@
     ];
 
     //METHODS
-    function Card(label, value, icon) {
-        this.label = label;
-        this.value = value;
-        
-        this.icon = icon;
-    }
     function Achievement(desc, current, icon, targets) {
         this.desc = desc;
         this.current = current;
@@ -273,7 +269,7 @@
 
         this.lastDoneTarget = this.getLastDoneTarget();
         this.nextTarget = this.getNextTarget();
-        this.progress = this.calculateProgress();
+        this.progress = this.calculateProgress();  
         this.desc = this.addTargetToDesc();
     }
     function getLongestNote(notes){
